@@ -51,6 +51,7 @@ INSERT INTO customer (email, name)
 VALUES ('john@gmail.com', 'John'),
 ('jane@gmail.com', 'Jane'),
 ('alice@gmail.com', 'Alice');
+
 -- B 
 INSERT INTO supplier (name,location)
 VALUES ('XYZ Electronics', 'Toronto'),
@@ -63,6 +64,7 @@ VALUES ('john@gmail.com'),
 ('jane@gmail.com'),
 ('john@gmail.com'),
 ('alice@gmail.com');
+
 -- D
 INSERT INTO product (name, price,brand,supplier_id)
 VALUES ('Laptop',800,'Dell',1),
@@ -70,6 +72,7 @@ VALUES ('Laptop',800,'Dell',1),
 ('Smartphone',600,'Samsung',2),
 ('Camera',300,'Canon',1),
 ('Chair',100,'Herman Miller',3);
+
 -- E 
 INSERT INTO order_product (order_id , product_id)
 VALUES (1,1),
@@ -80,9 +83,10 @@ VALUES (1,1),
 
 --  3 
 -- A 
+ALTER TABLE product ADD CHECK (price >= 0);
 
 -- B 
-
+UPDATE order_product SET product_id = 4  WHERE product_id = 2;
 
 --  4 
 -- A 
