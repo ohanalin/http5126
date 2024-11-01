@@ -90,10 +90,17 @@ UPDATE order_product SET product_id = 4  WHERE product_id = 2;
 
 --  4 
 -- A 
-
+DELETE FROM order_product WHERE order_id = 1;
 -- B 
+DELETE FROM `order` WHERE order_id = 1;
 
--- C 
+-- Bonus
 
--- D
+-- A |
+ALTER TABLE product DROP FOREIGN KEY product_ibfk_1;
 
+-- B
+ALTER TABLE product
+DROP COLUMN supplier_id;
+-- c
+DROP TABLE supplier;
