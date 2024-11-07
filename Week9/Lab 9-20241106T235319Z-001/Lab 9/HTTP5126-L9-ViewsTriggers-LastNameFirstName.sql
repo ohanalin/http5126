@@ -25,12 +25,20 @@ SELECT * FROM sales_total_by_employee WHERE 1000< `Total Sales ($)` ;
 
 --  3 
 -- A 
+CREATE TRIGGER stock_items
+AFTER INSERT ON sales 
+FOR EACH ROW
 
+UPDATE stock_items 
+    SET inventory = inventory - 1
+    WHERE id = 1015;
 -- B 
-
+INSERT INTO sales (date, item, employee)
+VALUES ('2021-06-20',1015,114);
 -- C 
 
-
+INSERT INTO sales (date, item, employee)
+VALUES ('2021-06-21',1005,116);
 --  4 
 -- A 
 
