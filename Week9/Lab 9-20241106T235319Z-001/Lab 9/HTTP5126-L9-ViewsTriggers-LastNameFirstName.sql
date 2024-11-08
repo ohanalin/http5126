@@ -41,10 +41,38 @@ INSERT INTO sales (date, item, employee)
 VALUES ('2021-06-21',1005,116);
 --  4 
 -- A 
+DELIMITER //
+CREATE OR REPLACE TRIGGER stock_items_log
+AFTER INSERT ON stock_items
+FOR EACH ROW
+BEGIN
+    INSERT INTO stock_items_log (action, item_id, old_item, old_price, old_inventory, old_category, timestamp)
+    VALUES ('Insert',  NEW.id, 'New Item', 15, 12, 'Piscine', NOW());
+END//
+DELIMITER ;
 
 -- B 
+DELIMITER //
+CREATE OR REPLACE TRIGGER stock_items_log
+BEFORE UPDATE ON stock_items
+FOR EACH ROW
+BEGIN
+    INSERT INTO stock_items_log (action, item_id, old_item, old_price, old_inventory, old_category, timestamp)
+    VALUES ('Update', OLD.id, OLD.item,OLD.price, OLD.inventory, OLD.category,  NOW());
+END//
+DELIMITER ;
 
 -- C 
+DELIMITER //
+CREATE OR REPLACE TRIGGER stock_items_log
+BEFORE DELETE ON stock_items
+FOR EACH ROW
+BEGIN
+    INSERT INTO stock_items_log (action, item_id, old_item, old_price, old_inventory, old_category, timestamp)
+    VALUES ('Delete', OLD.id, OLD.item,OLD.price, OLD.inventory, OLD.category,  NOW());
+END//
+DELIMITER ;
+
 
 
 --  5
@@ -74,5 +102,13 @@ INSERT INTO sales (`date`, item, employee)
   VALUES (NOW(), 1008, 114);
 INSERT INTO sales (`date`, item, employee)
   VALUES (NOW(), 1005, 111);
--- B
 
+ANSWER:
+  INSERT INTO `stock_items_log` (`id`, `action`, `item_id`, `old_item`, `old_price`, `old_inventory`, `old_category`, `timestamp`) VALUES
+(1,	'Delete',	1021,	'Bad dog bed',	95,	2,	'Canine',	'2024-11-07 22:27:04'),
+(2,	'Delete',	1005,	'Luxury cat bed',	89,	0,	'Feline',	'2024-11-07 22:27:04'),
+(3,	'Delete',	1025,	'Luxury cat collar',	150,	0,	'Feline',	'2024-11-07 22:27:04');
+-- B
+SELECT *
+FROM stock_items_log
+WHERE item_id = 1025;
