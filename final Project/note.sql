@@ -39,23 +39,23 @@ DELIMITER ;
 
 ---------------------------------------------------------------
 
-5. Add Default Timestamp to Alerts
+5. Add Default Timestamp to Alert
 
-ALTER TABLE low_inventory_alerts
+ALTER TABLE low_inventory_alert
 ADD alert_date DATETIME DEFAULT CURRENT_TIMESTAMP;
 
 ---------------------------------------------------------------
 
-6. Add Foreign Key Constraint Between low_inventory_alerts and soap
+6. Add Foreign Key Constraint Between low_inventory_alert and soap
 
-ALTER TABLE low_inventory_alerts 
+ALTER TABLE low_inventory_alert
 ADD CONSTRAINT fk_soap_id 
 FOREIGN KEY (soap_id) REFERENCES soap(soap_id) 
 ON DELETE CASCADE ON UPDATE CASCADE;
 
 ---------------------------------------------------------------
 
-7. Trigger to Insert Low Inventory Alerts
+7. Trigger to Insert Low Inventory Alert
 
 DELIMITER $$
 CREATE TRIGGER low_inventory_alert 
@@ -64,11 +64,14 @@ FOR EACH ROW
 BEGIN 
     -- Check if the inventory is lower than 10 after the update 
     IF NEW.inventory < 10 THEN 
-        -- Insert a new record into low_inventory_alerts table 
-        INSERT INTO low_inventory_alerts (soap_id, alert_date) 
+        -- Insert a new record into low_inventory_alert table 
+        INSERT INTO low_inventory_alert (soap_id, alert_date) 
         VALUES (NEW.soap_id, NOW()); 
     END IF; 
 END$$ 
 DELIMITER ;
 
 ---------------------------------------------------------------
+8. Inserts a new record into the sale table, automatically generating a unique sale_id while associating the user with ID 5 and the soap product with ID 9.
+
+INSERT INTO `sale` (`sale_id`, `user_id`, `soap_id`) VALUES (NULL, '5', '9');

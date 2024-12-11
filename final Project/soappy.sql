@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2024 at 04:36 AM
+-- Generation Time: Dec 11, 2024 at 05:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,20 +24,20 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `low_inventory_alerts`
+-- Table structure for table `low_inventory_alert`
 --
 
-CREATE TABLE `low_inventory_alerts` (
+CREATE TABLE `low_inventory_alert` (
   `soap_id` int(11) NOT NULL,
   `alert_id` int(11) NOT NULL,
   `alert_date` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf16 COLLATE=utf16_general_ci;
 
 --
--- Dumping data for table `low_inventory_alerts`
+-- Dumping data for table `low_inventory_alert`
 --
 
-INSERT INTO `low_inventory_alerts` (`soap_id`, `alert_id`, `alert_date`) VALUES
+INSERT INTO `low_inventory_alert` (`soap_id`, `alert_id`, `alert_date`) VALUES
 (8, 1, '2024-12-07 14:51:07');
 
 -- --------------------------------------------------------
@@ -59,7 +59,8 @@ CREATE TABLE `sale` (
 INSERT INTO `sale` (`sale_id`, `user_id`, `soap_id`) VALUES
 (1, 4, 1),
 (6, 8, 7),
-(7, 2, 8);
+(7, 2, 8),
+(8, 5, 9);
 
 --
 -- Triggers `sale`
@@ -104,7 +105,7 @@ INSERT INTO `soap` (`soap_id`, `weight_grams`, `price`, `cost`, `season`, `produ
 (6, 122.70, 9.99, 3.20, 'Spring', '2024-01-17', 20, '2026-01-17', 6, 'Maple'),
 (7, 62.50, 6.99, 2.10, 'Spring', '2024-01-25', 11, '2026-01-25', 7, 'Staring Night'),
 (8, 62.50, 6.99, 2.10, 'Summer', '2024-03-20', 9, '2026-03-20', 5, 'Apple Cider'),
-(9, 112.70, 9.99, 3.20, 'Fall', '2024-03-27', 15, '2026-03-27', 8, 'Wood Note');
+(9, 112.70, 9.99, 3.20, 'Fall', '2024-03-27', 14, '2026-03-27', 8, 'Wood Note');
 
 --
 -- Triggers `soap`
@@ -182,9 +183,9 @@ INSERT INTO `user` (`user_id`, `first_name`, `email`, `last_name`, `skin_types`,
 --
 
 --
--- Indexes for table `low_inventory_alerts`
+-- Indexes for table `low_inventory_alert`
 --
-ALTER TABLE `low_inventory_alerts`
+ALTER TABLE `low_inventory_alert`
   ADD PRIMARY KEY (`alert_id`),
   ADD KEY `fk_soap_id` (`soap_id`);
 
@@ -221,16 +222,16 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `low_inventory_alerts`
+-- AUTO_INCREMENT for table `low_inventory_alert`
 --
-ALTER TABLE `low_inventory_alerts`
+ALTER TABLE `low_inventory_alert`
   MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `soap`
@@ -255,9 +256,9 @@ ALTER TABLE `user`
 --
 
 --
--- Constraints for table `low_inventory_alerts`
+-- Constraints for table `low_inventory_alert`
 --
-ALTER TABLE `low_inventory_alerts`
+ALTER TABLE `low_inventory_alert`
   ADD CONSTRAINT `fk_soap_id` FOREIGN KEY (`soap_id`) REFERENCES `soap` (`soap_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
