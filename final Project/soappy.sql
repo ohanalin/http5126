@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2024 at 05:08 AM
+-- Generation Time: Dec 12, 2024 at 10:38 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,8 @@ CREATE TABLE `low_inventory_alert` (
 --
 
 INSERT INTO `low_inventory_alert` (`soap_id`, `alert_id`, `alert_date`) VALUES
-(8, 1, '2024-12-07 14:51:07');
+(8, 1, '2024-12-07 14:51:07'),
+(7, 2, '2024-12-11 19:06:53');
 
 -- --------------------------------------------------------
 
@@ -60,16 +61,18 @@ INSERT INTO `sale` (`sale_id`, `user_id`, `soap_id`) VALUES
 (1, 4, 1),
 (6, 8, 7),
 (7, 2, 8),
-(8, 5, 9);
+(8, 5, 9),
+(9, 2, 7),
+(13, 3, 7);
 
 --
 -- Triggers `sale`
 --
 DELIMITER $$
-CREATE TRIGGER `after_sale_insert` AFTER INSERT ON `sale` FOR EACH ROW BEGIN
-    UPDATE soap
-    SET inventory = inventory - 1
-    WHERE soap_id = NEW.soap_id;
+CREATE TRIGGER `after_sale_insert` AFTER INSERT ON `sale` FOR EACH ROW BEGIN 
+    UPDATE soap 
+    SET inventory = inventory - 1 
+    WHERE soap_id = NEW.soap_id; 
 END
 $$
 DELIMITER ;
@@ -103,9 +106,9 @@ INSERT INTO `soap` (`soap_id`, `weight_grams`, `price`, `cost`, `season`, `produ
 (4, 113.20, 9.99, 3.60, 'Winter', '2023-09-02', 40, '2025-09-02', 3, 'Forest'),
 (5, 62.50, 6.99, 2.10, 'Winter', '2024-01-14', 23, '2026-01-14', 1, 'Cherry Blossom'),
 (6, 122.70, 9.99, 3.20, 'Spring', '2024-01-17', 20, '2026-01-17', 6, 'Maple'),
-(7, 62.50, 6.99, 2.10, 'Spring', '2024-01-25', 11, '2026-01-25', 7, 'Staring Night'),
+(7, 62.50, 6.99, 2.10, 'Spring', '2024-01-25', 9, '2026-01-25', 7, 'Staring Night'),
 (8, 62.50, 6.99, 2.10, 'Summer', '2024-03-20', 9, '2026-03-20', 5, 'Apple Cider'),
-(9, 112.70, 9.99, 3.20, 'Fall', '2024-03-27', 14, '2026-03-27', 8, 'Wood Note');
+(9, 112.70, 9.99, 3.20, 'Fall', '2024-03-27', 10, '2026-03-27', 8, 'Wood Note');
 
 --
 -- Triggers `soap`
@@ -115,7 +118,7 @@ CREATE TRIGGER `low_inventory_alert` AFTER UPDATE ON `soap` FOR EACH ROW BEGIN
     -- Check if the inventory is lower than 10 after the update
     IF NEW.inventory < 10 THEN
         -- Insert a new record into low_inventory_alerts table
-        INSERT INTO low_inventory_alerts (soap_id, alert_date)
+        INSERT INTO low_inventory_alert (soap_id, alert_date)
         VALUES (NEW.soap_id, NOW());
     END IF;
 END
@@ -225,13 +228,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `low_inventory_alert`
 --
 ALTER TABLE `low_inventory_alert`
-  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `alert_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `sale_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `soap`

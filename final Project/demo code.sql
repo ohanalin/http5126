@@ -74,4 +74,4 @@ DELIMITER ;
 ---------------------------------------------------------------
 8. Inserts a new record into the sale table, automatically generating a unique sale_id while associating the user with ID 5 and the soap product with ID 9.
 
-INSERT INTO `sale` (`sale_id`, `user_id`, `soap_id`) VALUES (NULL, '5', '9');
+INSERT INTO `sale` (`sale_id`, `user_id`, `soap_id`) VALUES (NULL, '3', '7');
